@@ -1,24 +1,26 @@
 namespace ConsoleApp2;
 
+using ConsoleApp2.Common;
+using ConsoleApp2.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 public class Warehouse
 {
-    private Dictionary<string, List<Product>> productsByCategory = new Dictionary<string, List<Product>>();
+    private Dictionary<CategoriaEnum, List<Product>> productsByCategory = new Dictionary<CategoriaEnum, List<Product>>();
 
     public void AddProduct(Product product)
     {
-        if (!productsByCategory.ContainsKey(product.Category))
+        if (!productsByCategory.ContainsKey(product.CategoriaType))
         {
-            productsByCategory[product.Category] = new List<Product>();
+            productsByCategory[product.CategoriaType] = new List<Product>();
         }
 
-        var products = productsByCategory[product.Category];
+        var products = productsByCategory[product.CategoriaType];
         if (products.Count >= 500)
         {
-            Console.WriteLine("Shelf for category " + product.Category + " is full.");
+            Console.WriteLine("Shelf for category " + product.CategoriaType + " is full.");
         }
         else
         {
@@ -27,7 +29,7 @@ public class Warehouse
         }
     }
 
-    public void RemoveProduct(string category, string name)
+    public void RemoveProduct(CategoriaEnum category, string name)
     {
         if (productsByCategory.ContainsKey(category))
         {
@@ -48,7 +50,7 @@ public class Warehouse
         }
     }
 
-    public void CheckProductAvailability(string category, string name)
+    public void CheckProductAvailability(CategoriaEnum category, string name)
     {
         if (productsByCategory.ContainsKey(category) && productsByCategory[category].Any(p => p.Name == name))
         {
