@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace ConsoleApp2;
 
 using ConsoleApp2.Common;
@@ -28,33 +30,37 @@ public class Warehouse
             Console.WriteLine("Product added to the warehouse.");
         }
     }
+    
+    
 
-    public void RemoveProduct(CategoriaEnum category, string name)
+    public void RemoveProduct(Product product)
     {
-        if (productsByCategory.ContainsKey(category))
+        if (product == null)
+            throw new ArgumentNullException(nameof(product), "Product cannot be null.");
+        
+        if (productsByCategory.ContainsKey(product.CategoriaType))
         {
-            var product = productsByCategory[category].FirstOrDefault(p => p.Name == name);
-            if (product != null)
-            {
-                productsByCategory[category].Remove(product);
-                Console.WriteLine("Product removed from the warehouse.");
-            }
-            else
-            {
-                Console.WriteLine("Product not found.");
-            }
+            Console.WriteLine("Products are available.");
+        }
+        
+        if (!productsByCategory[product.CategoriaType].Remove(product))
+        {
+            Console.WriteLine("Product is not found");
         }
         else
         {
-            Console.WriteLine("Category not found.");
+            Console.WriteLine("Product is removed successfully");
         }
+        
+
     }
 
-    public void CheckProductAvailability(CategoriaEnum category, string name)
+
+    public void CheckProductAvailability(CategoriaEnum category, int count)
     {
-        if (productsByCategory.ContainsKey(category) && productsByCategory[category].Any(p => p.Name == name))
+        if (productsByCategory.ContainsKey(category) && productsByCategory[category].Count < count)
         {
-            Console.WriteLine("Product is available.");
+            Console.WriteLine("Products are available.");
         }
         else
         {

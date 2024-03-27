@@ -10,6 +10,8 @@ Console.WriteLine( product.Name );
 
 var warehouse = new Warehouse();
 warehouse.AddProduct(product);
+warehouse.RemoveProduct(product);
+warehouse.CheckProductAvailability(CategoriaEnum.Food, 2);
 var order = new Order("Timur", "Bishkek");
 order.AddProducts(product);
 Console.WriteLine( order );
